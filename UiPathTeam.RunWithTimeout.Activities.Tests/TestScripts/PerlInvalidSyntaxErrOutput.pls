@@ -1,0 +1,1 @@
+﻿This is some invalid perl syntax
