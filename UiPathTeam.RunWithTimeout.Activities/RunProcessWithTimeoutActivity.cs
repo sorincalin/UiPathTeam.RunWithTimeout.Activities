@@ -1,8 +1,10 @@
 ﻿using System.Activities;
 using System.ComponentModel;
+using UiPathTeam.RunWithTimeout.Design;
 
 namespace UiPathTeam.RunWithTimeout.Activities
 {
+    [Designer(typeof(RunProcessWithTimeoutActivityDesigner))]
     [DisplayName("Run Process With Timeout")]
     [Description("Runs a process using System.Diagnostics.Process.")]
     public class RunProcessWithTimeoutActivity: CodeActivity
@@ -28,7 +30,7 @@ namespace UiPathTeam.RunWithTimeout.Activities
 
         [Category("Input")]
         [RequiredArgument]
-        [DisplayName("Wait for exit flag")]
+        [DisplayName("Wait for exit")]
         [Description("Indicates if the activity should wait for the process to finish.")]
         public InArgument<bool> WaitForExit { get; set; }
 

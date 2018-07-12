@@ -1,0 +1,59 @@
+﻿<sap:ActivityDesigner x:Class="UiPathTeam.RunWithTimeout.Design.RunProcessWithTimeoutActivityDesigner"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:d="clr-namespace:System.Drawing;assembly=System.Drawing"
+    xmlns:i="clr-namespace:System.Drawing.Imaging;assembly=System.Drawing"
+    xmlns:sap="clr-namespace:System.Activities.Presentation;assembly=System.Activities.Presentation"
+    xmlns:sapv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
+    xmlns:sapc="clr-namespace:System.Activities.Presentation.Converters;assembly=System.Activities.Presentation">
+
+    <sap:ActivityDesigner.Resources>
+        <ResourceDictionary>
+            <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter" />
+            <DataTemplate x:Key="Expanded">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Margin="5" Text="Filename: " />
+                    <sapv:ExpressionTextBox HintText="Enter a VB Expression" Expression="{Binding Path=ModelItem.FileName, Mode=TwoWay, 
+                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:String" Grid.Row="0" Grid.Column="1" 
+                        OwnerActivity="{Binding Path=ModelItem}" Margin="0,5" MaxLines="1" />
+
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Margin="5" Text="Capture output: " />
+                    <sapv:ExpressionTextBox HintText="Enter a VB Expression" Expression="{Binding Path=ModelItem.CaptureOutput, Mode=TwoWay, 
+                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:Boolean" Grid.Row="1" Grid.Column="1" 
+                        OwnerActivity="{Binding Path=ModelItem}" Margin="0,5" MaxLines="1" />
+
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Margin="5" Text="Wait for exit: " />
+                    <sapv:ExpressionTextBox HintText="Enter a VB Expression" Expression="{Binding Path=ModelItem.WaitForExit, Mode=TwoWay, 
+                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:Boolean" Grid.Row="2" Grid.Column="1" 
+                        OwnerActivity="{Binding Path=ModelItem}" Margin="0,5" MaxLines="1" />
+
+                </Grid>
+            </DataTemplate>
+
+            <Style x:Key="ExpandOrCollapsedStyle" TargetType="{x:Type ContentPresenter}">
+                <Setter Property="ContentTemplate" Value="{DynamicResource Expanded}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=ShowExpanded}" Value="false">
+                        <Setter Property="ContentTemplate" Value="{DynamicResource Collapsed}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </sap:ActivityDesigner.Resources>
+
+    <Grid>
+        <ContentPresenter Style="{DynamicResource ExpandOrCollapsedStyle}" Content="{Binding}" />
+    </Grid>
+
+</sap:ActivityDesigner>

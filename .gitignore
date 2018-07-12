@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/UiPathTeam.RunWithTimeout.Activities/v15
+/UiPathTeam.RunWithTimeout.Activities/obj/Debug
+/UiPathTeam.RunWithTimeout.Activities/bin/Debug
+/UiPathTeam.RunWithTimeout.Activities.Tests/obj/Debug
+/UiPathTeam.RunWithTimeout.Activities.Tests/bin/Debug
