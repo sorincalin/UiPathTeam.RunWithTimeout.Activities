@@ -11,5 +11,6 @@
     <releaseNotes>First release.</releaseNotes>
     <copyright>UiPath 2018</copyright>
     <tags>UiPath Process Script Run</tags>
+    <iconUrl>http://www.uipath.com/hubfs/Logos/uipath-nuget-logo.png</iconUrl>
   </metadata>
 </package>
