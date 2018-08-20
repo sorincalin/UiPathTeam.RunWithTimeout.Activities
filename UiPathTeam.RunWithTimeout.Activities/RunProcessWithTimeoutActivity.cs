@@ -1,5 +1,8 @@
-﻿using System.Activities;
+﻿using System;
+using System.Activities;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using UiPathTeam.RunWithTimeout.Design;
 
 namespace UiPathTeam.RunWithTimeout.Activities
@@ -70,10 +73,60 @@ namespace UiPathTeam.RunWithTimeout.Activities
         [Description("Exit Code of the process. If the process did not finish in the allocated time will be set to Int.MinValue.")]
         public OutArgument<int> ExitCode { get; set; }
 
+        protected void ValidateWorkingDirectory(CodeActivityContext context)
+        {
+            var workingDirectory = WorkingDirectory.Get(context);
+            if (!string.IsNullOrEmpty(workingDirectory) && !Directory.Exists(workingDirectory))
+            {
+                throw new ArgumentException("Working directory does not exist.");
+            }
+        }
 
+        protected void ValidateFilename(CodeActivityContext context, bool lookForFilesInPATH)
+        {
+            var workingDirectory = WorkingDirectory.Get(context);
+            if (string.IsNullOrEmpty(workingDirectory))
+            {
+                workingDirectory = Directory.GetCurrentDirectory();
+            }
+
+            var filename = FileName.Get(context);
+            if (Path.IsPathRooted(filename) && !File.Exists(filename))
+            {
+                throw new ArgumentException("Filename with absolute path could not be found.");
+            }
+            else
+            {
+                if (Path.GetFileName(filename) == filename)
+                {
+                    if (lookForFilesInPATH && !Environment.GetEnvironmentVariable("PATH").Split(';').
+                        Any(dir => (string.IsNullOrEmpty(Path.GetExtension(filename)) && // The given filename does not have an extension but matches one file from the directories in PATH
+                                    Directory.GetFiles(dir).Any(file => Path.GetFileNameWithoutExtension(file) == filename)) ||
+                                    File.Exists(Path.Combine(dir, filename)))) // Filename is present in one of the directories from PATH 
+                    {
+                        throw new ArgumentException("Filename could not be found in the working directory or in any directory from the PATH Environment Variable.");
+                    }
+                }
+                else
+                {
+                    if (!File.Exists(Path.Combine(workingDirectory, filename)))
+                    {
+                        throw new ArgumentException("Filename with relative path could not be found in the current working directory.");
+                    }
+                }
+            }
+        }
+
+        protected virtual void ValidateInputArguments(CodeActivityContext context) 
+        {
+            ValidateWorkingDirectory(context);
+            ValidateFilename(context, true); // For processes we want to look in directories from PATH
+        }
 
         protected override void Execute(CodeActivityContext context)
         {
+            ValidateInputArguments(context);
+
             var processInvokeWrapper = new RunProcessWrapper(FileName.Get(context))
             {
                 Arguments = Arguments.Get(context),

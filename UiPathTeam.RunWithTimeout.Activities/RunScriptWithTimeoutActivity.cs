@@ -7,12 +7,17 @@ namespace UiPathTeam.RunWithTimeout.Activities
     [Description("Runs a variety of scripts using the Windows Script Host (cscript.exe).")]
     public class RunScriptWithTimeoutActivity : RunProcessWithTimeoutActivity
     {
+        protected override void ValidateInputArguments(CodeActivityContext context)
+        {
+            ValidateWorkingDirectory(context);
+            ValidateFilename(context, false); // For scripts we don't look in directories from PATH
+        }
         protected override void Execute(CodeActivityContext context)
         {
             var scriptFilename = FileName.Get(context);
 
             FileName.Set(context, "cscript.exe");
-            Arguments.Set(context, "//Nologo " + scriptFilename + " " + Arguments.Get(context));
+            Arguments.Set(context, "//Nologo " + "\"" + scriptFilename + "\"" + " " + Arguments.Get(context));
 
             base.Execute(context);
         }

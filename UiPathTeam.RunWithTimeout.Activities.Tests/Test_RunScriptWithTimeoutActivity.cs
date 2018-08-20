@@ -104,5 +104,28 @@ namespace UiPathTeam.RunWithTimeout.Activities.Tests
             Assert.IsFalse(string.IsNullOrEmpty(Convert.ToString(output["Output"])));
             Assert.IsTrue(string.IsNullOrEmpty(Convert.ToString(output["Error"])));
         }
+
+        [TestMethod]
+        public void Run_VBSWithSpacesInFilePath()
+        {
+            var vbsInvoke = new RunScriptWithTimeoutActivity
+            {
+                FileName = @"..\..\TestScripts\VBS With Spaces In Name.vbs",
+                WaitForExit = true,
+                WaitForExitTimeout = 10000,
+                KillAtTimeout = true,
+                CaptureOutput = true
+            };
+
+            var output = WorkflowInvoker.Invoke(vbsInvoke);
+
+            Assert.IsTrue(Convert.ToInt32(output["ProcessId"]) != 0);
+
+            Assert.IsTrue(Convert.ToBoolean(output["Finished"]));
+            Assert.IsTrue(Convert.ToInt32(output["ExitCode"]) == 0);
+
+            Assert.IsFalse(string.IsNullOrEmpty(Convert.ToString(output["Output"])));
+            Assert.IsTrue(string.IsNullOrEmpty(Convert.ToString(output["Error"])));
+        }
     }
 }
