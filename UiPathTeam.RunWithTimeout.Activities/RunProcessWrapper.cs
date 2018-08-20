@@ -5,14 +5,14 @@ namespace UiPathTeam.RunWithTimeout.Activities
 {
     class RunProcessWrapper
     {
-        public string FileName { get; set; }
-        public string Arguments { get; set; }
-        public string WorkindDirectory { get; set; }
+        public string FileName { get; private set; }
+        public string Arguments { get; private set; }
+        public string WorkindDirectory { get; private set; }
 
-        public bool WaitForExit { get; set; }
-        public int WaitForExitTimeoutMs { get; set; }
-        public bool KillAfterTimeout { get; set; }
-        public bool CaptureOutput { get; set; }
+        public bool WaitForExit { get; private set; }
+        public int WaitForExitTimeoutMs { get; private set; }
+        public bool KillAfterTimeout { get; private set; }
+        public bool CaptureOutput { get; private set; }
 
         public string StandardOutput { get; private set; }
         public string StandardError { get; private set; }
@@ -20,9 +20,16 @@ namespace UiPathTeam.RunWithTimeout.Activities
         public bool Finished { get; private set; }
         public int ExitCode { get; private set; }
 
-        public RunProcessWrapper(string filename)
+        public RunProcessWrapper(string filename, string arguments, string workingDirectory, bool captureOutput, 
+                                bool waitForExit, int waitForExitTimeoutMs, bool killAtTimeout)
         {
             FileName = filename;
+            Arguments = arguments;
+            WorkindDirectory = workingDirectory;
+            CaptureOutput = captureOutput;
+            WaitForExit = waitForExit;
+            WaitForExitTimeoutMs = waitForExitTimeoutMs;
+            KillAfterTimeout = killAtTimeout;
         }
 
         public void StartProcess()
@@ -50,7 +57,6 @@ namespace UiPathTeam.RunWithTimeout.Activities
                 process.OutputDataReceived += (sender, args) => ReadOutput(args.Data, false);
                 process.ErrorDataReceived += (sender, args) => ReadOutput(args.Data, true);
             }
-
 
             process.Start();
             ProcessId = process.Id;

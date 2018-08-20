@@ -132,15 +132,13 @@ namespace UiPathTeam.RunWithTimeout.Activities
         {
             ValidateInputArguments(context);
 
-            var processInvokeWrapper = new RunProcessWrapper(FileName.Get(context))
-            {
-                Arguments = Arguments.Get(context),
-                WorkindDirectory = WorkingDirectory.Get(context),
-                CaptureOutput = CaptureOutput.Get(context),
-                WaitForExit = WaitForExit.Get(context),
-                WaitForExitTimeoutMs = WaitForExitTimeout.Get(context),
-                KillAfterTimeout = KillAtTimeout.Get(context)
-            };
+            var processInvokeWrapper = new RunProcessWrapper(FileName.Get(context),
+                                                            Arguments.Get(context),
+                                                            WorkingDirectory.Get(context),
+                                                            CaptureOutput.Get(context),
+                                                            WaitForExit.Get(context),
+                                                            WaitForExitTimeout.Get(context),
+                                                            KillAtTimeout.Get(context));
 
             processInvokeWrapper.StartProcess();
 
