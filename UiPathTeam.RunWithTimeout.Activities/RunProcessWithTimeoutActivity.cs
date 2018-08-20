@@ -82,7 +82,7 @@ namespace UiPathTeam.RunWithTimeout.Activities
             }
         }
 
-        protected void ValidateFilename(CodeActivityContext context, bool lookForFilesInPATH)
+        protected virtual void ValidateFilename(CodeActivityContext context, bool lookForFilesInPATH)
         {
             var workingDirectory = WorkingDirectory.Get(context);
             if (string.IsNullOrEmpty(workingDirectory))
@@ -117,10 +117,15 @@ namespace UiPathTeam.RunWithTimeout.Activities
             }
         }
 
-        protected virtual void ValidateInputArguments(CodeActivityContext context) 
+        protected void ValidateInputArguments(CodeActivityContext context) 
         {
             ValidateWorkingDirectory(context);
             ValidateFilename(context, true); // For processes we want to look in directories from PATH
+
+            if (WaitForExit.Get(context) && WaitForExitTimeout.Get(context) == 0)
+            {
+                throw new ArgumentException("WaitForExit is set to True but the WaitForExitTimeout is 0.");
+            }
         }
 
         protected override void Execute(CodeActivityContext context)

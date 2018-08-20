@@ -142,5 +142,20 @@ namespace UiPathTeam.RunWithTimeout.Activities.Tests
 
             var argumentException = Assert.ThrowsException<ArgumentException>(() => WorkflowInvoker.Invoke(vbsInvoke));
         }
+
+        [TestMethod]
+        public void Run_WaitForExitWith0Timeout()
+        {
+            var vbsInvoke = new RunProcessWithTimeoutActivity
+            {
+                FileName = @"perl.exe",
+                Arguments = @"..\..\TestScripts\PerlConfigurableDurationStdOutput.pls 3",
+                WaitForExit = true,
+                KillAtTimeout = true,
+                CaptureOutput = true
+            };
+
+            var argEx = Assert.ThrowsException<ArgumentException>(() => WorkflowInvoker.Invoke(vbsInvoke));
+        }
     }
 }

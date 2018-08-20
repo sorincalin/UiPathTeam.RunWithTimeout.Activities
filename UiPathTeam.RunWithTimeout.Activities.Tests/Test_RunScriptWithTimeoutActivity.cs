@@ -127,5 +127,27 @@ namespace UiPathTeam.RunWithTimeout.Activities.Tests
             Assert.IsFalse(string.IsNullOrEmpty(Convert.ToString(output["Output"])));
             Assert.IsTrue(string.IsNullOrEmpty(Convert.ToString(output["Error"])));
         }
+
+        [TestMethod]
+        public void Run_UnsupportedScript()
+        {
+            var vbsInvoke = new RunScriptWithTimeoutActivity
+            {
+                FileName = @"..\..\TestScripts\UnsupportedScript.wtf",
+                WaitForExit = true,
+                WaitForExitTimeout = 10000,
+                KillAtTimeout = true,
+                CaptureOutput = true
+            };
+
+            var output = WorkflowInvoker.Invoke(vbsInvoke);
+
+            Assert.IsTrue(Convert.ToInt32(output["ProcessId"]) != 0);
+
+            Assert.IsTrue(Convert.ToBoolean(output["Finished"]));
+            Assert.IsTrue(Convert.ToInt32(output["ExitCode"]) != 0);
+
+            Assert.IsTrue(Convert.ToString(output["Output"]).Contains("There is no script engine for file extension"));
+        }
     }
 }
