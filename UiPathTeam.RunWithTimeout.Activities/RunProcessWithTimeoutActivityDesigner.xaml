@@ -6,7 +6,8 @@
     xmlns:i="clr-namespace:System.Drawing.Imaging;assembly=System.Drawing"
     xmlns:sap="clr-namespace:System.Activities.Presentation;assembly=System.Activities.Presentation"
     xmlns:sapv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
-    xmlns:sapc="clr-namespace:System.Activities.Presentation.Converters;assembly=System.Activities.Presentation">
+    xmlns:sapc="clr-namespace:System.Activities.Presentation.Converters;assembly=System.Activities.Presentation"
+    xmlns:uip="clr-namespace:UiPath.Activities.Presentation">
 
     <sap:ActivityDesigner.Resources>
         <ResourceDictionary>
@@ -24,18 +25,18 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Margin="5" Text="Filename: " />
-                    <sapv:ExpressionTextBox HintText="Enter a VB Expression" Expression="{Binding Path=ModelItem.FileName, Mode=TwoWay, 
-                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:String" Grid.Row="0" Grid.Column="1" 
-                        OwnerActivity="{Binding Path=ModelItem}" Margin="0,5" MaxLines="1" />
+                    <uip:FilePathControl Grid.Row="0" Grid.Column="1" ModelItem="{Binding ModelItem}" HintText="Enter the file path" DockPanel.Dock="Top" 
+                        Expression="{Binding ModelItem.FileName, ConverterParameter=In, Converter={StaticResource ArgumentToExpressionConverter}, Mode=TwoWay}" 
+                        PropertyName="FileName" Margin="0.5" Height="25"/>
 
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Margin="5" Text="Capture output: " />
                     <sapv:ExpressionTextBox HintText="Enter a VB Expression" Expression="{Binding Path=ModelItem.CaptureOutput, Mode=TwoWay, 
-                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:Boolean" Grid.Row="1" Grid.Column="1" 
+                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:Boolean" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                         OwnerActivity="{Binding Path=ModelItem}" Margin="0,5" MaxLines="1" />
 
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Margin="5" Text="Wait for exit: " />
                     <sapv:ExpressionTextBox HintText="Enter a VB Expression" Expression="{Binding Path=ModelItem.WaitForExit, Mode=TwoWay, 
-                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:Boolean" Grid.Row="2" Grid.Column="1" 
+                        Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" ExpressionType="s:Boolean" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                         OwnerActivity="{Binding Path=ModelItem}" Margin="0,5" MaxLines="1" />
 
                 </Grid>

@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\FilePathControl.cs" />
     <Compile Include="RunProcessWithTimeoutActivity.cs" />
     <Compile Include="RunScriptWithTimeoutActivity.cs" />
     <Compile Include="RunProcessWrapper.cs" />
@@ -63,6 +64,10 @@
     <None Include="UiPathTeam.RunWithTimeout.Activities.nuspec" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\FilePathControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RunProcessWithTimeoutActivityDesigner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

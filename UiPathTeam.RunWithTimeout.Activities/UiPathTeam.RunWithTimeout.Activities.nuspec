@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>UiPathTeam.RunWithTimeout.Activities</id>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <title>UiPathTeam.RunWithTimeout.Activities</title>
     <authors>Sorin Calin</authors>
     <owners>UiPath</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Custom activities to run processes and scripts with timeout.</description>
-    <releaseNotes>First release.</releaseNotes>
+    <releaseNotes>Added File Explorer button for the filename.</releaseNotes>
     <copyright>UiPath 2018</copyright>
     <tags>UiPath Process Script Run</tags>
     <iconUrl>http://www.uipath.com/hubfs/Logos/uipath-nuget-logo.png</iconUrl>
